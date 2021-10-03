@@ -1,0 +1,16 @@
+templates:
+  - source: 'src/gitignore.tmpl'
+    target: '.gitignore'
+  - source: 'src/go.mod.tmpl'
+    target: 'go.mod'
+  - source: 'src/main.go.tmpl'
+    target: 'main.go'
+variables:
+  repoBaseUrl:
+    description: 'The URL of the github account, to be used in imports etc.'
+    pattern: '^github.com/[a-zA-Z0-9-]+$'
+    default: 'github.com/eurofurence'
+  serviceName:
+    description: 'The name of the service to be rendered.'
+    pattern: '^[a-z-]+$'
+    default: 'reg-backend-template-test'
