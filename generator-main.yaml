@@ -3,7 +3,7 @@ templates:
   - source: 'src/github/workflows/codeql-analysis.yml.tmpl'
     target: '.github/workflows/codeql-analysis.yml'
   - source: 'src/github/workflows/go.yml.tmpl'
-    target: '.github/workflows/go.yml.yml'
+    target: '.github/workflows/go.yml'
   - source: 'src/github/dependabot.yml.tmpl'
     target: '.github/dependabot.yml'
   - source: 'src/gitignore.tmpl'
