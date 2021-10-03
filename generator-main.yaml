@@ -16,6 +16,8 @@ templates:
     target: 'docs/testdocs.go'
   - source: 'src/go.mod.tmpl'
     target: 'go.mod'
+  - source: 'src/LICENSE.tmpl'
+    target: 'LICENSE'
   - source: 'src/main.go.tmpl'
     target: 'main.go'
 variables:
@@ -26,6 +28,13 @@ variables:
     description: 'The URL of the github account, to be used in imports etc.'
     pattern: '^github.com/[a-zA-Z0-9-]+$'
     default: 'github.com/eurofurence'
+  licenseOwner:
+    description: 'The owner in the copyright line of the MIT license.'
+    default: 'Eurofurence e.V.'
+  licenseYear:
+    description: 'The year in the copyright line of the MIT license.'
+    pattern: '^[0-9]{4}$'
+    default: '2021'
   reviewers:
     description: 'List of github accounts to add as pull request reviewers.'
     default:
