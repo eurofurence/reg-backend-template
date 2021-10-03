@@ -1,0 +1,34 @@
+package web
+
+import (
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/repository/config"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/repository/logging"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/web/controller/healthctl"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/web/filter/corsfilter"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/web/filter/logreqid"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/web/filter/reqid"
+	"github.com/go-chi/chi"
+	"net/http"
+)
+
+func Create() chi.Router {
+	logging.NoCtx().Info("Building routers...")
+	server := chi.NewRouter()
+
+	server.Use(reqid.RequestIdMiddleware())
+	server.Use(logreqid.LogRequestIdMiddleware())
+	server.Use(corsfilter.CorsHeadersMiddleware())
+
+	healthctl.Create(server)
+	// add your controllers here
+	return server
+}
+
+func Serve(server chi.Router) {
+	address := config.ServerAddr()
+	logging.NoCtx().Info("Listening on " + address)
+	err := http.ListenAndServe(address, server)
+	if err != nil {
+		logging.NoCtx().Error(err)
+	}
+}
