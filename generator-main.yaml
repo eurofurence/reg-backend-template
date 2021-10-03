@@ -1,4 +1,4 @@
-# keep both templates and variables in alphabetical order
+# keep both template targets and variables in alphabetical order
 templates:
   - source: 'src/github/workflows/codeql-analysis.yml.tmpl'
     target: '.github/workflows/codeql-analysis.yml'
@@ -8,15 +8,28 @@ templates:
     target: '.github/dependabot.yml'
   - source: 'src/gitignore.tmpl'
     target: '.gitignore'
+  - source: 'src/docs/config.example.yaml.tmpl'
+    target: 'docs/config.example.yaml'
+  - source: 'src/docs/openapi.yaml.tmpl'
+    target: 'docs/openapi.yaml'
+  - source: 'src/docs/testdocs.go.tmpl'
+    target: 'docs/testdocs.go'
   - source: 'src/go.mod.tmpl'
     target: 'go.mod'
   - source: 'src/main.go.tmpl'
     target: 'main.go'
 variables:
+  maintainerEmail:
+    description: 'Email address to use for maintainer information.'
+    default: 'jsquirrel_github_9a6d@packetloss.de'
   repoBaseUrl:
     description: 'The URL of the github account, to be used in imports etc.'
     pattern: '^github.com/[a-zA-Z0-9-]+$'
     default: 'github.com/eurofurence'
+  reviewers:
+    description: 'List of github accounts to add as pull request reviewers.'
+    default:
+      - "Jumpy-Squirrel"
   serviceName:
     description: 'The name of the service to be rendered.'
     pattern: '^[a-z-]+$'
