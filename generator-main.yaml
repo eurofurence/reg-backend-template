@@ -56,14 +56,9 @@ templates:
     target: 'LICENSE'
   - source: 'src/main.go.tmpl'
     target: 'main.go'
+  - source: 'src/README.md.tmpl'
+    target: 'README.md'
 variables:
-  maintainerEmail:
-    description: 'Email address to use for maintainer information.'
-    default: 'jsquirrel_github_9a6d@packetloss.de'
-  repoBaseUrl:
-    description: 'The URL of the github account, to be used in imports etc.'
-    pattern: '^github.com/[a-zA-Z0-9-]+$'
-    default: 'github.com/eurofurence'
   licenseOwner:
     description: 'The owner in the copyright line of the MIT license.'
     default: 'Eurofurence e.V.'
@@ -71,6 +66,13 @@ variables:
     description: 'The year in the copyright line of the MIT license.'
     pattern: '^[0-9]{4}$'
     default: '2021'
+  maintainerEmail:
+    description: 'Email address to use for maintainer information.'
+    default: 'jsquirrel_github_9a6d@packetloss.de'
+  repoBaseUrl:
+    description: 'The URL of the github account, to be used in imports etc.'
+    pattern: '^github.com/[a-zA-Z0-9-]+$'
+    default: 'github.com/eurofurence'
   reviewers:
     description: 'List of github accounts to add as pull request reviewers.'
     default:
