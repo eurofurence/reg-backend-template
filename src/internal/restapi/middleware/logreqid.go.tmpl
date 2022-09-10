@@ -1,16 +1,15 @@
 package middleware
 
 import (
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/repository/logging"
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/web/filter/reqid"
 	"net/http"
 )
 
 func logRequestIdHandler(next http.Handler) func(w http.ResponseWriter, r *http.Request) {
 	handlerFunc := func(w http.ResponseWriter, r *http.Request) {
-		ctx := r.Context()
-		newCtx := logging.CreateContextWithLoggerForRequestId(ctx, reqid.GetRequestID(ctx))
-		r = r.WithContext(newCtx)
+		// example to log a request id
+		// ctx := r.Context()
+		// newCtx := logging.CreateContextWithLoggerForRequestId(ctx, GetRequestID(ctx))
+		// r = r.WithContext(newCtx)
 
 		next.ServeHTTP(w, r)
 	}

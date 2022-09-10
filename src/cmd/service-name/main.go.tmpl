@@ -1,20 +1,37 @@
 package main
 
 import (
-	"fmt"
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/repository/config"
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/repository/logging/consolelogging/logformat"
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/server"
-	"log"
+
+	"time"
+	"os/signal"
+	"syscall"
 	"context"
+	"log"
+	"os"
 )
 
 func main() {
-	err := config.LoadConfiguration("config.yaml")
-	if err != nil {
-		log.Fatal(logformat.Logformat("ERROR", "00000000", fmt.Sprintf("Error while loading configuration: %v", err)))
-	}
-	log.Println(logformat.Logformat("INFO", "00000000", "Initializing..."))
-	server := server.Create()
-	server.Serve(server)
+	// TODO start implementing your service here
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		<-sig
+		cancel()
+		log.Println("Stopping services now")
+
+		tCtx, tcancel := context.WithTimeout(context.Background(), time.Second*5)
+		defer tcancel()
+
+		if err := server.Shutdown(tCtx); err != nil {
+			log.Fatal("Couldn't shutdown server gracefully")
+		}
+	}()
+
+	handler := server.Create()
+	server.Serve(ctx, handler)
 }
