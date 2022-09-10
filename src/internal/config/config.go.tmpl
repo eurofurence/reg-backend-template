@@ -1,0 +1,36 @@
+// Can be done in mutple ways. Either read configuration from the command line arguments
+
+package config
+
+import (
+	"flag"
+)
+
+type (
+	Config struct {
+		ServiceConfig ServiceConfig
+	}
+
+	ServiceConfig struct {
+		ServiceName string `env:"SERVICE_NAME"`
+		Port        int    `env:"SERVICE_PORT"`
+	}
+)
+
+func UnmarshalFromFlagSet() *Config {
+	conf := &Config{}
+
+	flag.StringVar(&conf.ServiceConfig.ServiceName, "service-name", "", "The name of the service")
+	flag.StringVar(&conf.ServiceConfig.ServiceName, "s", "", "The name of the service")
+
+	flag.Parse()
+
+	return conf
+}
+
+func UnmarshalFromEnvironment() *Config {
+
+	// Example use netflix go-env or viper
+
+	return nil
+}
