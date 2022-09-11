@@ -3,10 +3,11 @@ package v1health
 import (
 	"context"
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/restapi/media"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-http-utils/headers"
 )
@@ -28,6 +29,6 @@ func writeJson(ctx context.Context, w http.ResponseWriter, v interface{}) {
 	encoder.SetEscapeHTML(false)
 	err := encoder.Encode(v)
 	if err != nil {
-		log.Println("ERROR: An error occurred", err)
+		logging.Ctx(ctx).Warn(fmt.Sprintf("error while encoding json response: %v", err))
 	}
 }
