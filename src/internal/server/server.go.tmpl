@@ -5,11 +5,12 @@
 package server
 
 import (
+	"errors"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/restapi/middleware"
 	v1health "{{ .repoBaseUrl }}/{{ .serviceName }}/internal/restapi/v1/health"
 
 	"context"
-	"log"
 	"net"
 	"net/http"
 	"time"
@@ -17,7 +18,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// quick and dirty method of handling the server. 
+// quick and dirty method of handling the server.
 // do not export as global variable in productive code
 var srv *http.Server
 
@@ -47,7 +48,11 @@ func Serve(ctx context.Context, server chi.Router) {
 	}
 
 	if err := srv.ListenAndServe(); err != nil {
-		log.Fatal("Failed...")
+		if errors.Is(err, http.ErrServerClosed) {
+			logging.NoCtx().Info("Server shut down normally")
+		} else {
+			logging.NoCtx().Fatal("ListenAndServe failed")
+		}
 	}
 }
 

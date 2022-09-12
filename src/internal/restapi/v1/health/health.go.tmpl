@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/restapi/media"
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/restapi/media"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-http-utils/headers"
 )
@@ -17,6 +17,8 @@ func Create(server chi.Router) {
 }
 
 func healthGet(w http.ResponseWriter, r *http.Request) {
+	logging.Ctx(r.Context()).Info("health")
+
 	dto := HealthResultDto{Status: "up"}
 
 	w.Header().Add(headers.ContentType, media.ContentTypeApplicationJson)

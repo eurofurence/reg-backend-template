@@ -1,18 +1,20 @@
 package main
 
 import (
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/server"
 
-	"time"
+	"context"
+	"os"
 	"os/signal"
 	"syscall"
-	"context"
-	"log"
-	"os"
+	"time"
 )
 
 func main() {
 	// TODO start implementing your service here
+
+	logging.NoCtx().Info("Service is starting")
 
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -22,13 +24,13 @@ func main() {
 	go func() {
 		<-sig
 		cancel()
-		log.Println("Stopping services now")
+		logging.NoCtx().Info("Stopping service now")
 
 		tCtx, tcancel := context.WithTimeout(context.Background(), time.Second*5)
 		defer tcancel()
 
 		if err := server.Shutdown(tCtx); err != nil {
-			log.Fatal("Couldn't shutdown server gracefully")
+			logging.NoCtx().Fatal("Couldn't shutdown server gracefully")
 		}
 	}()
 

@@ -3,11 +3,10 @@ package middleware
 import (
 	"github.com/go-http-utils/headers"
 
-	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
 	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/config"
-	
+	"{{ .repoBaseUrl }}/{{ .serviceName }}/internal/logging"
+
 	"net/http"
-	"log"
 )
 
 func createCorsHeadersHandler(next http.Handler, config *config.Application) func(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +23,7 @@ func createCorsHeadersHandler(next http.Handler, config *config.Application) fun
 		}
 
 		if r.Method == http.MethodOptions {
-			log.Println("INFO received OPTIONS request. Responding with OK.")
+			logging.Ctx(ctx).Info("received OPTIONS request. Responding with OK.")
 			w.WriteHeader(http.StatusOK)
 			return
 		}
