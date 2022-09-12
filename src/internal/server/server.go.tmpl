@@ -35,7 +35,7 @@ func Create() chi.Router {
 
 func Serve(ctx context.Context, server chi.Router) {
 	const address = ":8080"
-	srv := &http.Server{
+	srv = &http.Server{
 		Addr:         address,
 		Handler:      server,
 		ReadTimeout:  30 * time.Second,
