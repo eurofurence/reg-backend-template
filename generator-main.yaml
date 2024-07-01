@@ -4,6 +4,7 @@ templates:
     target: '.github/dependabot.yml'
   - source: 'src/github/workflows/docker.yml.tmpl'
     target: '.github/workflows/docker.yml'
+    just_copy: true
   - source: 'src/github/workflows/go.yml.tmpl'
     target: '.github/workflows/go.yml'
   - source: 'src/api/generator/generate.sh.tmpl'
